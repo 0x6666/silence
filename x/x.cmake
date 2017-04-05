@@ -27,6 +27,7 @@ macro(x_package_begin pkg_name)
 	set(X_EXECUTABLE_ENTRYPOINT "main")
 	set(X_HAS_PUBLIC_HEADER)
 	set(X_PACKAGE_SOURCE_FILES)
+	set(X_COMPILE_FLAGS)
 
 	# c++11
 	if(${OS_LINUX})
@@ -62,7 +63,8 @@ macro(x_package_end)
 		message(FATAL_ERROR "invalid package type")
 	endif()
 
-	set_target_properties(${X_PACKAGE_NAME} PROPERTIES COMPILE_FLAGS "/wd4819")
+	_global_ignore_cmp_warn()
+	set_target_properties(${X_PACKAGE_NAME} PROPERTIES COMPILE_FLAGS ${X_COMPILE_FLAGS})
 
 endmacro(x_package_end)
 
@@ -83,6 +85,10 @@ macro(x_package_sources)
 	list(APPEND X_PACKAGE_SOURCE_FILES ${_source_files})
 endmacro(x_package_sources)
 
+# ignore warnings
+macro(x_add_ignorr_warn)
+	_add_ignorr_warn(${ARGN})
+endmacro(x_add_ignorr_warn)
 
 macro(x_public_header)
 	foreach(_f ${ARGN})

@@ -76,6 +76,26 @@ macro(_create_include_ref _f _pub_h)
 	endif()
 endmacro()
 
+macro(_add_compale_flags _flag)
+	set(X_COMPILE_FLAGS "${X_COMPILE_FLAGS} ${_flag}")
+endmacro(_add_compale_flags)
+
+macro(_add_ignorr_warn)
+	set(_warns ${ARGN})
+	if(OS_WIN)
+		foreach(_w ${_warns})
+			_add_compale_flags(${_w})
+		endforeach()
+	else()
+		message("todo: ignore warning")
+	endif()
+endmacro(_add_ignorr_warn)
+
+macro(_global_ignore_cmp_warn)
+	_add_ignorr_warn(
+		/wd4819
+	)
+endmacro(_global_ignore_cmp_warn)
 
 function(_x_find_env)
 	if(NOT X_ENV_PATH)
