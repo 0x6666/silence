@@ -7,19 +7,19 @@ include(CMakeParseArguments)
 
 include("${X_CMAKE_DIR}/internal.cmake")
 
-# x_package_begin(<name> [NONE|STATIC|SHARED|EXECUTABLE|CONSOLE])
+# x_package_begin(<name> [STATIC|SHARED|EXECUTABLE|CONSOLE])
 # 开始定义一个工程
 macro(x_package_begin pkg_name)
 
-	set(pkg_types "NONE|STATIC|SHARED|EXECUTABLE|CONSOLE")
+	set(pkg_types "STATIC|SHARED|EXECUTABLE|CONSOLE")
 
 	cmake_parse_arguments(_ARG "" "" ""  ${ARGN})
 	set(_argn ${_ARG_UNPARSED_ARGUMENTS})
 
-	_find_radio_option(${_argn} ${pkg_types} "NONE" pkg_type)
+	_find_radio_option(${_argn} ${pkg_types} "EXECUTABLE" pkg_type)
 
 	if("${pkg_type}" STREQUAL "")
-		message(FATAL_ERROR "could not find the package type.\n")
+		message(FATAL_ERROR "could not find the package type")
 	endif()
 
 	set(X_PACKAGE_NAME "${pkg_name}")
@@ -28,6 +28,7 @@ macro(x_package_begin pkg_name)
 	set(X_HAS_PUBLIC_HEADER)
 	set(X_PACKAGE_SOURCE_FILES)
 
+	# c++11
 	if(${OS_LINUX})
 		add_compile_options(-std=c++11)
 	endif()
@@ -57,12 +58,11 @@ macro(x_package_end)
 		endif()
 	elseif("${X_PACKAGE_TYPE}!" STREQUAL "CONSOLE!")
 		add_executable(${X_PACKAGE_NAME} ${_src_to_compile})
-	elseif("${X_PACKAGE_TYPE}!" STREQUAL "NONE!")
-		add_custom_target(${X_PACKAGE_NAME} ALL
-			DEPENDS ${_src_to_compile}
-			SOURCES ${_src_to_compile}
-		)
+	else()
+		message(FATAL_ERROR "invalid package type")
 	endif()
+
+	set_target_properties(${X_PACKAGE_NAME} PROPERTIES COMPILE_FLAGS "/wd4819")
 
 endmacro(x_package_end)
 
@@ -173,8 +173,8 @@ macro(x_extren_package _pkg_name _pkg_type)
 	if(X_EXT_PKG_PUBLIC_HEADER)
 		set_property(TARGET ${_pkg_name} PROPERTY X_HEADER_DIR "${X_EXT_PKG_PUBLIC_HEADER}")
 	endif()
-	set_property(TARGET ${_pkg_name} PROPERTY X_IMPT_LOCATION "${_location}")
-	set_property(TARGET ${_pkg_name} PROPERTY X_IMPT_IMPLIB "${_implib}")
+	set_property(TARGET ${_pkg_name} PROPERTY X_IMPT_LOCATION "${_model_path}")
+	set_property(TARGET ${_pkg_name} PROPERTY X_IMPT_IMPLIB "${_lib}")
 	set_property(TARGET ${_pkg_name} PROPERTY X_PACKAGE_TYPE "EXTERN")
 
 endmacro(x_extren_package)

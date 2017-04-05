@@ -2,8 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 
 include("x/check.cmake")
 
-project(silence)
-#PROJECT_NAME
+project(Silence)
 
 include("x/x.cmake")
 
