@@ -14,7 +14,7 @@ x_package_begin(silence EXECUTABLE)
 		src/stdafx.h
 		src/targetver.h
 	)
-	x_add_ignorr_warn(
+	x_ignorr_warn(
 		/wd4996
 	)
 x_package_end()
@@ -25,3 +25,7 @@ x_package_end()
 #	BINARY_NAMES_DEBUG QtCored4
 #	BINARY_NAMES_RELEASE QtCore4
 #)
+
+
+x_finish_project()
+

@@ -86,15 +86,15 @@ macro(x_package_sources)
 endmacro(x_package_sources)
 
 # ignore warnings
-macro(x_add_ignorr_warn)
+macro(x_ignorr_warn)
 	_add_ignorr_warn(${ARGN})
-endmacro(x_add_ignorr_warn)
+endmacro(x_ignorr_warn)
 
 macro(x_public_header)
 	foreach(_f ${ARGN})
 		_create_public_header_ref(${_f} ${X_PACKAGE_NAME})
 	endforeach()
-endmacro()
+endmacro(x_public_header)
 
 # x_extren_package(_pkg_name _pkg_type
 #			<LOCATION _location>
@@ -184,3 +184,7 @@ macro(x_extren_package _pkg_name _pkg_type)
 	set_property(TARGET ${_pkg_name} PROPERTY X_PACKAGE_TYPE "EXTERN")
 
 endmacro(x_extren_package)
+
+macro(x_finish_project)
+	_generate_make_bat()
+endmacro(x_finish_project)

@@ -129,3 +129,10 @@ function(_x_find_qt)
 endfunction()
 
 #_x_find_qt()
+
+
+macro(_generate_make_bat)
+	if(CMAKE_GENERATOR MATCHES "^Visual Studio")
+		configure_file("${X_CMAKE_DIR}/template/make.bat.in" "${CMAKE_BINARY_DIR}/make.bat" @ONLY)
+	endif()
+endmacro()
