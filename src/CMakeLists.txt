@@ -6,18 +6,7 @@ project(Silence)
 
 include("x/x.cmake")
 
-x_package_begin(silence EXECUTABLE)
-	x_package_sources(
-		src/audio.h
-		src/silence.cpp
-		src/stdafx.cpp
-		src/stdafx.h
-		src/targetver.h
-	)
-	x_ignorr_warn(
-		/wd4996
-	)
-x_package_end()
+x_sub_dir(silence)
 
 #x_extren_package(
 #	QtCore SHARED

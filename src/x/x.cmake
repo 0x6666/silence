@@ -188,3 +188,8 @@ endmacro(x_extren_package)
 macro(x_finish_project)
 	_generate_make_bat()
 endmacro(x_finish_project)
+
+
+macro(x_sub_dir _name)
+	add_subdirectory(${_name})
+endmacro(x_sub_dir _name)
